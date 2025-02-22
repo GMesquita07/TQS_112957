@@ -26,4 +26,15 @@ public class StocksPortfolio {
 
         return total;
     }
+
+    public List<Stock> mostValuableStocks(int topN) {
+        return stocks.stream()
+                     .sorted((s1, s2) -> Double.compare(
+                         stockmarket.lookUpPrice(s2.getLabel()) * s2.getQuantity(),
+                         stockmarket.lookUpPrice(s1.getLabel()) * s1.getQuantity()
+                     ))
+                     .limit(topN)
+                     .toList();
+    }
+    
 }
