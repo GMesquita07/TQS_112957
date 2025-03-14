@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tqs.CucumberTest" time="0.005" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tqs.CucumberTest" time="0.121" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -7,12 +7,13 @@
     <property name="java.vm.vendor" value="Ubuntu"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="user.timezone" value="Europe/Lisbon"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="21"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PT"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire/surefirebooter-20250314145936553_3.jar /home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire 2025-03-14T14-59-36_128-jvmRun1 surefire-20250314145936553_1tmp surefire_0-20250314145936553_2tmp"/>
+    <property name="sun.java.command" value="/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire/surefirebooter-20250314154433167_3.jar /home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire 2025-03-14T15-44-33_114-jvmRun1 surefire-20250314154433167_1tmp surefire_0-20250314154433167_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/test-classes:/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/classes:/home/mesquita/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar:/home/mesquita/.m2/repository/ch/qos/logback/logback-classic/1.5.3/logback-classic-1.5.3.jar:/home/mesquita/.m2/repository/ch/qos/logback/logback-core/1.5.3/logback-core-1.5.3.jar:/home/mesquita/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/mesquita/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/mesquita/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/mesquita/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/mesquita/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-suite/1.10.1/junit-platform-suite-1.10.1.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-suite-api/1.10.1/junit-platform-suite-api-1.10.1.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-suite-engine/1.10.1/junit-platform-suite-engine-1.10.1.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-suite-commons/1.10.1/junit-platform-suite-commons-1.10.1.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.1/junit-platform-launcher-1.10.1.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-java/7.15.0/cucumber-java-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-core/7.15.0/cucumber-core-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-gherkin/7.15.0/cucumber-gherkin-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.15.0/cucumber-gherkin-messages-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/gherkin/26.2.0/gherkin-26.2.0.jar:/home/mesquita/.m2/repository/io/cucumber/messages/22.0.0/messages-22.0.0.jar:/home/mesquita/.m2/repository/io/cucumber/tag-expressions/6.0.0/tag-expressions-6.0.0.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-expressions/17.0.1/cucumber-expressions-17.0.1.jar:/home/mesquita/.m2/repository/io/cucumber/datatable/7.15.0/datatable-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-plugin/7.15.0/cucumber-plugin-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/docstring/7.15.0/docstring-7.15.0.jar:/home/mesquita/.m2/repository/io/cucumber/html-formatter/20.4.0/html-formatter-20.4.0.jar:/home/mesquita/.m2/repository/io/cucumber/junit-xml-formatter/0.2.0/junit-xml-formatter-0.2.0.jar:/home/mesquita/.m2/repository/io/cucumber/ci-environment/10.0.0/ci-environment-10.0.0.jar:/home/mesquita/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/mesquita/.m2/repository/io/cucumber/cucumber-junit-platform-engine/7.15.0/cucumber-junit-platform-engine-7.15.0.jar:/home/mesquita/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire/surefirebooter-20250314145936553_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/mesquita/TQS/TQS_112957/lab5/lab5_1gettingstarted/target/surefire/surefirebooter-20250314154433167_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.6+7-Ubuntu-122.04.1"/>
     <property name="user.name" value="mesquita"/>
@@ -53,18 +54,24 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="" classname="tqs.CucumberTest" time="0.005">
-    <error message="Suite [tqs.CucumberTest] did not discover any tests" type="org.junit.platform.suite.engine.NoTestsDiscoveredException"><![CDATA[org.junit.platform.suite.engine.NoTestsDiscoveredException: Suite [tqs.CucumberTest] did not discover any tests
-	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
-	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
-	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
-	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939)
-	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
-	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
-	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
-	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
-	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
-	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
-]]></error>
+  <testcase name="Addition" classname="Basic Arithmetic" time="0.07">
+    <system-out><![CDATA[15:44:33.583 [main] DEBUG tqs.CalculatorSteps -- Adding 4 and 5
+15:44:33.587 [main] DEBUG tqs.CalculatorSteps -- Result: 9.0 (expected 9.0)
+]]></system-out>
+  </testcase>
+  <testcase name="Substraction" classname="Basic Arithmetic" time="0.003">
+    <system-out><![CDATA[15:44:33.593 [main] DEBUG tqs.CalculatorSteps -- Substracting 7 and 2
+15:44:33.593 [main] DEBUG tqs.CalculatorSteps -- Result: 5.0 (expected 5.0)
+]]></system-out>
+  </testcase>
+  <testcase name="Example #1.1" classname="Single digits" time="0.002">
+    <system-out><![CDATA[15:44:33.595 [main] DEBUG tqs.CalculatorSteps -- Adding 1 and 2
+15:44:33.596 [main] DEBUG tqs.CalculatorSteps -- Result: 3.0 (expected 3.0)
+]]></system-out>
+  </testcase>
+  <testcase name="Example #1.2" classname="Single digits" time="0.002">
+    <system-out><![CDATA[15:44:33.598 [main] DEBUG tqs.CalculatorSteps -- Adding 3 and 7
+15:44:33.598 [main] DEBUG tqs.CalculatorSteps -- Result: 10.0 (expected 10.0)
+]]></system-out>
   </testcase>
 </testsuite>
