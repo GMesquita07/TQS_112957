@@ -69,4 +69,13 @@ public class ReservationController {
         }
     }
 
+    @GetMapping
+    public List<ReservationResponseDTO> getReservationsByTokens(@RequestParam List<String> tokens) {
+        return tokens.stream()
+                .map(reservationService::getReservationByToken)
+                .filter(res -> res != null && !res.isCancelled()) // ignora reservas canceladas
+                .toList();
+    }
+
+
 }
