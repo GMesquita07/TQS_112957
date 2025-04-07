@@ -1,0 +1,14 @@
+pt/ua/tqs/mealbooking/model/Reservation.class
+pt/ua/tqs/mealbooking/controller/ReservationController.class
+pt/ua/tqs/mealbooking/repository/ReservationRepository.class
+pt/ua/tqs/mealbooking/model/Meal.class
+pt/ua/tqs/mealbooking/repository/RestaurantRepository.class
+pt/ua/tqs/mealbooking/controller/RestaurantController.class
+pt/ua/tqs/mealbooking/repository/MealRepository.class
+pt/ua/tqs/mealbooking/model/MealType.class
+pt/ua/tqs/mealbooking/MealBookingApplication.class
+pt/ua/tqs/mealbooking/service/ReservationService.class
+pt/ua/tqs/mealbooking/controller/MealController.class
+pt/ua/tqs/mealbooking/model/Restaurant.class
+pt/ua/tqs/mealbooking/dto/ReservationRequestDTO.class
+pt/ua/tqs/mealbooking/dto/ReservationResponseDTO.class
