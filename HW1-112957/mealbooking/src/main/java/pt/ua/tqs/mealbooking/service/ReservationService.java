@@ -27,15 +27,9 @@ public class ReservationService {
     }
 
     public ReservationResponseDTO createReservation(ReservationRequestDTO request) {
-        MealType type;
-        try {
-            String upperCaseMealType = request.getType().name().toUpperCase();
-            type = MealType.valueOf(upperCaseMealType);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Tipo de refeição inválido");
-        }
+        MealType type = request.getType();
 
-        LocalDate date = LocalDate.parse(request.getDate());
+        LocalDate date = request.getDate(); // ❗ Corrigido aqui — remover o parse
 
         if (reservationRepository.existsByRestaurantIdAndDateAndTypeAndCancelledFalse(
                 request.getRestaurantId(), date, type)) {
@@ -128,11 +122,11 @@ public class ReservationService {
     public void cancelReservation(String token) {
         Reservation reservation = reservationRepository.findByToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva não encontrada"));
-    
+
         if (!reservation.isCancelled()) {
             reservation.setCancelled(true);
             reservationRepository.save(reservation);
         }
     }
-    
+
 }

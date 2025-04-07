@@ -31,7 +31,13 @@ public class MealService {
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
     
         return meals.stream().map(meal -> {
-            WeatherForecast forecast = weatherService.getForecast(restaurant.getLocation(), meal.getDate());
+            WeatherForecast forecast;
+            try {
+                forecast = weatherService.getForecast(restaurant.getLocation(), meal.getDate());
+            } catch (RuntimeException e) {
+                forecast = new WeatherForecast(meal.getDate(), "Indisponível", 0.0);
+            }
+
             return new MealWithWeatherDTO(
                     meal.getId(),
                     meal.getDescription(),

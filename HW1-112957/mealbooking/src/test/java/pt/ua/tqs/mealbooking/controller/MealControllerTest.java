@@ -1,9 +1,9 @@
 package pt.ua.tqs.mealbooking.controller;
 
-import pt.ua.tqs.mealbooking.model.Meal;
+import pt.ua.tqs.mealbooking.dto.MealWithWeatherDTO;
+import pt.ua.tqs.mealbooking.dto.WeatherForecast;
 import pt.ua.tqs.mealbooking.model.MealType;
-import pt.ua.tqs.mealbooking.model.Restaurant;
-import pt.ua.tqs.mealbooking.repository.MealRepository;
+import pt.ua.tqs.mealbooking.service.MealService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +25,31 @@ public class MealControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private MealRepository mealRepository;
+    private MealService mealService;
 
     @Test
-    public void testGetMealsByRestaurantAndDate() throws Exception {
-        Restaurant r = new Restaurant("Cantina Central", "Campus Norte");
-        r.setId(1L);
+    public void testGetMealsWithWeather() throws Exception {
+        LocalDate date = LocalDate.of(2025, 4, 7);
+        WeatherForecast forecast = new WeatherForecast(date, "Sol", 20.0);
 
-        Meal m1 = new Meal(LocalDate.of(2025, 4, 7), MealType.ALMOCO, "Frango", r);
+        MealWithWeatherDTO dto = new MealWithWeatherDTO(
+                1L,
+                "Frango assado",
+                MealType.ALMOCO,
+                date,
+                forecast
+        );
 
-        when(mealRepository.findByRestaurantIdAndDate(1L, LocalDate.of(2025, 4, 7)))
-            .thenReturn(List.of(m1));
+        when(mealService.getMealsWithWeather(1L, date)).thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/api/meals")
-                .param("restaurantId", "1")
-                .param("date", "2025-04-07"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()").value(1))
-            .andExpect(jsonPath("$[0].description").value("Frango"));
+        mockMvc.perform(get("/api/meals/weather")
+                        .param("restaurantId", "1")
+                        .param("date", "2025-04-07"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].description").value("Frango assado"))
+                .andExpect(jsonPath("$[0].type").value("ALMOCO"))
+                .andExpect(jsonPath("$[0].weatherForecast.summary").value("Sol"))
+                .andExpect(jsonPath("$[0].weatherForecast.temperature").value(20.0));
     }
 }

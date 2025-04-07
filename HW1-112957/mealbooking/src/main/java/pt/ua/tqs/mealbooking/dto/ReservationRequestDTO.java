@@ -2,13 +2,24 @@ package pt.ua.tqs.mealbooking.dto;
 
 import pt.ua.tqs.mealbooking.model.MealType;
 
+import java.time.LocalDate;
+
 public class ReservationRequestDTO {
     private Long restaurantId;
     private Long mealId;
-    private String date;
-    private MealType type;  // Alterado de String para MealType
+    private LocalDate date;
+    private MealType type;
 
-    // Getters e Setters
+    public ReservationRequestDTO() {
+        // Construtor vazio necessário para (des)serialização JSON
+    }
+
+    public ReservationRequestDTO(Long restaurantId, Long mealId, LocalDate date, MealType type) {
+        this.restaurantId = restaurantId;
+        this.mealId = mealId;
+        this.date = date;
+        this.type = type;
+    }
 
     public Long getRestaurantId() {
         return restaurantId;
@@ -26,11 +37,11 @@ public class ReservationRequestDTO {
         this.mealId = mealId;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
