@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+function Navbar() {
   return (
-    <nav className="bg-blue-600 p-4 text-white flex gap-4">
-      <Link to="/" className="hover:underline">Início</Link>
-      <Link to="/reservations" className="hover:underline">As Minhas Reservas</Link>
-      <Link to="/staff" className="hover:underline">Área Staff</Link>
+    <nav style={{ padding: "1rem", backgroundColor: "#eee" }}>
+      <Link to="/" style={{ marginRight: "1rem" }}>Início</Link>
+      <Link to="/reservations" style={{ marginRight: "1rem" }}>As Minhas Reservas</Link>
+      <Link to="/staff" style={{ marginRight: "1rem" }}>Área Staff</Link>
+      <Link to="/cache" style={{ marginRight: "1rem" }}>Estatísticas</Link> {/* Adicionado aqui */}
     </nav>
   );
 }
+
+export default Navbar;

@@ -18,4 +18,5 @@
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/main/java/pt/ua/tqs/mealbooking/dto/WeatherForecast.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/main/java/pt/ua/tqs/mealbooking/service/WeatherCache.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/main/java/pt/ua/tqs/mealbooking/repository/MealRepository.java
+/home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/main/java/pt/ua/tqs/mealbooking/dto/WeatherCacheStats.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/main/java/pt/ua/tqs/mealbooking/model/Reservation.java

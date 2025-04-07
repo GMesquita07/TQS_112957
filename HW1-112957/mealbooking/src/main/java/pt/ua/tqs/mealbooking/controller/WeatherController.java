@@ -1,11 +1,10 @@
 package pt.ua.tqs.mealbooking.controller;
 
-import org.springframework.web.bind.annotation.*;
-import pt.ua.tqs.mealbooking.dto.WeatherForecast;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pt.ua.tqs.mealbooking.dto.WeatherCacheStats;
 import pt.ua.tqs.mealbooking.service.WeatherService;
-
-import java.time.LocalDate;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/weather")
@@ -17,13 +16,8 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
-    @GetMapping("/forecast")
-    public WeatherForecast getForecast(@RequestParam String location, @RequestParam String date) {
-        return weatherService.getForecast(location, LocalDate.parse(date));
-    }
-
-    @GetMapping("/cache/stats")
-    public Map<String, Integer> getCacheStats() {
+    @GetMapping("/cache-stats")
+    public WeatherCacheStats getCacheStats() {
         return weatherService.getCacheStats();
     }
 }

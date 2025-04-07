@@ -3,12 +3,12 @@ package pt.ua.tqs.mealbooking.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import pt.ua.tqs.mealbooking.dto.WeatherCacheStats;
 import pt.ua.tqs.mealbooking.dto.WeatherForecast;
 
-import java.net.URI;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class WeatherService {
@@ -16,91 +16,75 @@ public class WeatherService {
     @Value("${weather.api.key}")
     private String apiKey;
 
-    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/forecast";
-    private static final long CACHE_TTL_MS = 60 * 60 * 1000; // 1 hora
-
     private final Map<String, CachedForecast> cache = new HashMap<>();
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    private final long ttlMillis = 60 * 60 * 1000; // 1 hora
+
+    // Estatísticas
     private int totalRequests = 0;
     private int hits = 0;
     private int misses = 0;
 
-    public WeatherForecast getForecast(String location, LocalDate date) {
+    public WeatherForecast getForecast(String city, LocalDate date) {
         totalRequests++;
-        String key = location + "_" + date;
-
+        String key = city + "_" + date;
         CachedForecast cached = cache.get(key);
-        if (cached != null && !cached.isExpired()) {
+
+        if (cached != null && System.currentTimeMillis() - cached.timestamp < ttlMillis) {
             hits++;
-            return cached.getForecast();
+            return cached.forecast;
         }
 
-        String city = resolveCity(location); // traduzir nomes tipo "Cantina Central" para "Aveiro", etc.
+        misses++;
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-                .queryParam("q", city + ",PT")
-                .queryParam("appid", apiKey)
-                .queryParam("units", "metric")
-                .queryParam("lang", "pt")
-                .build()
-                .toUri();
+        String url = String.format(
+                "https://api.openweathermap.org/data/2.5/forecast?q=%s&appid=%s&units=metric&lang=pt",
+                city, apiKey
+        );
 
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, Object> response = restTemplate.getForObject(uri, Map.class);
-        List<Map<String, Object>> list = (List<Map<String, Object>>) response.get("list");
+        var response = restTemplate.getForObject(url, Map.class);
+        if (response == null || !response.containsKey("list")) {
+            throw new RuntimeException("Resposta inválida da API de tempo.");
+        }
 
-        for (Map<String, Object> entry : list) {
-            String dtTxt = (String) entry.get("dt_txt");
-            if (dtTxt != null && dtTxt.startsWith(date.toString())) {
-                Map<String, Object> main = (Map<String, Object>) entry.get("main");
-                List<Map<String, Object>> weatherList = (List<Map<String, Object>>) entry.get("weather");
+        var list = (java.util.List<Map<String, Object>>) response.get("list");
 
-                double temp = (main != null && main.containsKey("temp")) ? ((Number) main.get("temp")).doubleValue() : 0.0;
-                String description = (weatherList != null && !weatherList.isEmpty()) ?
-                        (String) weatherList.get(0).get("description") : "sem info";
+        WeatherForecast selected = null;
 
-                WeatherForecast forecast = new WeatherForecast(date, description, temp);
-                cache.put(key, new CachedForecast(forecast, System.currentTimeMillis()));
-                misses++;
-                return forecast;
+        for (var item : list) {
+            long timestamp = ((Number) item.get("dt")).longValue();
+            LocalDate itemDate = java.time.Instant.ofEpochSecond(timestamp)
+                    .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            if (itemDate.equals(date)) {
+                Map<String, Object> main = (Map<String, Object>) item.get("main");
+                java.util.List<Map<String, Object>> weatherList = (java.util.List<Map<String, Object>>) item.get("weather");
+                String description = (String) weatherList.get(0).get("description");
+                double temp = ((Number) main.get("temp")).doubleValue();
+                selected = new WeatherForecast(itemDate, description, temp);
+                break;
             }
         }
 
-        throw new RuntimeException("Não foi possível obter previsão para a data: " + date);
+        if (selected == null) {
+            throw new RuntimeException("Não foi possível encontrar previsão para esta data.");
+        }
+
+        cache.put(key, new CachedForecast(selected, System.currentTimeMillis()));
+        return selected;
     }
 
-    private String resolveCity(String location) {
-        if (location == null) return "Aveiro";
-        location = location.toLowerCase();
-
-        if (location.contains("central")) return "Aveiro";
-        if (location.contains("santiago")) return "Aveiro";
-
-        return location; // fallback se for já o nome da cidade
-    }
-
-    public Map<String, Integer> getCacheStats() {
-        Map<String, Integer> stats = new HashMap<>();
-        stats.put("totalRequests", totalRequests);
-        stats.put("hits", hits);
-        stats.put("misses", misses);
-        return stats;
+    public WeatherCacheStats getCacheStats() {
+        return new WeatherCacheStats(totalRequests, hits, misses);
     }
 
     private static class CachedForecast {
-        private final WeatherForecast forecast;
-        private final long timestamp;
+        WeatherForecast forecast;
+        long timestamp;
 
-        public CachedForecast(WeatherForecast forecast, long timestamp) {
+        CachedForecast(WeatherForecast forecast, long timestamp) {
             this.forecast = forecast;
             this.timestamp = timestamp;
-        }
-
-        public WeatherForecast getForecast() {
-            return forecast;
-        }
-
-        public boolean isExpired() {
-            return System.currentTimeMillis() - timestamp > CACHE_TTL_MS;
         }
     }
 }
