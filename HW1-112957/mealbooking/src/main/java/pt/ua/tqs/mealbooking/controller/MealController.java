@@ -1,5 +1,6 @@
 package pt.ua.tqs.mealbooking.controller;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import pt.ua.tqs.mealbooking.dto.MealWithWeatherDTO;
 import pt.ua.tqs.mealbooking.service.MealService;
@@ -17,9 +18,11 @@ public class MealController {
         this.mealService = mealService;
     }
 
-    @GetMapping
-    public List<MealWithWeatherDTO> getMeals(@RequestParam Long restaurantId, @RequestParam String date) {
-        LocalDate localDate = LocalDate.parse(date);
-        return mealService.getMealsWithWeather(restaurantId, localDate);
+    @GetMapping("/weather")
+    public List<MealWithWeatherDTO> getMealsWithWeather(
+            @RequestParam Long restaurantId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return mealService.getMealsWithWeather(restaurantId, date);
     }
 }
+

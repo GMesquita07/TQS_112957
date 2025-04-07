@@ -1,6 +1,6 @@
 -- Cantinas
-INSERT INTO restaurant (id, name, location) VALUES (1, 'Cantina Central', 'Campus Norte');
-INSERT INTO restaurant (id, name, location) VALUES (2, 'Cantina de Santiago', 'Campus Sul');
+INSERT INTO restaurant (id, name, location) VALUES (1, 'Cantina Central', 'Aveiro');
+INSERT INTO restaurant (id, name, location) VALUES (2, 'Cantina de Santiago', 'Aveiro');
 
 -- Refeições (hoje)
 -- Cantina 1 - Cantina Central

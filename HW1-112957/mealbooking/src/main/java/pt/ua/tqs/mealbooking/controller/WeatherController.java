@@ -1,6 +1,7 @@
 package pt.ua.tqs.mealbooking.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pt.ua.tqs.mealbooking.dto.WeatherForecast;
 import pt.ua.tqs.mealbooking.service.WeatherService;
 
 import java.time.LocalDate;
@@ -17,9 +18,8 @@ public class WeatherController {
     }
 
     @GetMapping("/forecast")
-    public String getForecast(@RequestParam String location, @RequestParam String date) {
-        LocalDate localDate = LocalDate.parse(date);
-        return weatherService.getForecast(location, localDate);
+    public WeatherForecast getForecast(@RequestParam String location, @RequestParam String date) {
+        return weatherService.getForecast(location, LocalDate.parse(date));
     }
 
     @GetMapping("/cache/stats")

@@ -8,40 +8,56 @@ function HomePage() {
 
   useEffect(() => {
     if (selectedRestaurant && selectedDate) {
-      fetchMeals();
+      fetchMealsWithWeather();
     }
   }, [selectedRestaurant, selectedDate]);
 
-  const fetchMeals = () => {
-    fetch(`http://localhost:8080/api/meals?restaurantId=${selectedRestaurant}&date=${selectedDate}`)
-      .then((response) => response.json())
-      .then((data) => setMeals(data))
+  const fetchMealsWithWeather = () => {
+    fetch(`http://localhost:8080/api/meals/weather?restaurantId=${selectedRestaurant}&date=${selectedDate}`)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMeals(data);
+      })
       .catch((error) => {
         setReservationMessage(`Erro ao carregar refeições: ${error.message}`);
       });
   };
 
   const handleReservation = (mealId, type) => {
+    const restaurantId = selectedRestaurant;
+    const date = selectedDate;
+
     fetch("http://localhost:8080/api/reservations", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        restaurantId: selectedRestaurant,
+        restaurantId,
         mealId,
-        date: selectedDate,
+        date,
         type,
       }),
     })
       .then((response) => {
         if (!response.ok) {
-          return response.text().then((text) => { throw new Error(text); });
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
         }
         return response.json();
       })
       .then((data) => {
-        const tokens = JSON.parse(localStorage.getItem("reservationTokens")) || [];
-        localStorage.setItem("reservationTokens", JSON.stringify([...tokens, data.token]));
-        setReservationMessage(`Reserva efetuada! Token: ${data.token}`);
+        const existingTokens = JSON.parse(localStorage.getItem("reservationTokens")) || [];
+        localStorage.setItem("reservationTokens", JSON.stringify([...existingTokens, data.token]));
+        setReservationMessage(`Reserva efetuada com sucesso! Token: ${data.token}`);
       })
       .catch((error) => {
         setReservationMessage(`Erro ao fazer a reserva: ${error.message}`);
@@ -51,6 +67,7 @@ function HomePage() {
   return (
     <div>
       <h2>Página de Cantinas</h2>
+
       <label>Escolha uma cantina:</label>
       <select onChange={(e) => setSelectedRestaurant(e.target.value)} value={selectedRestaurant}>
         <option value="">Selecione uma cantina</option>
@@ -68,7 +85,7 @@ function HomePage() {
             <th>Tipo</th>
             <th>Descrição</th>
             <th>Data</th>
-            <th>Tempo</th>
+            <th>Previsão</th>
             <th>Ação</th>
           </tr>
         </thead>
@@ -79,7 +96,11 @@ function HomePage() {
                 <td>{meal.type}</td>
                 <td>{meal.description}</td>
                 <td>{meal.date}</td>
-                <td>{meal.weather?.summary || "Sem previsão"}</td>
+                <td>
+                  {meal.weatherForecast
+                    ? `${meal.weatherForecast.summary}, ${meal.weatherForecast.temperature}ºC`
+                    : "Sem dados"}
+                </td>
                 <td>
                   <button onClick={() => handleReservation(meal.id, meal.type)}>Reservar</button>
                 </td>

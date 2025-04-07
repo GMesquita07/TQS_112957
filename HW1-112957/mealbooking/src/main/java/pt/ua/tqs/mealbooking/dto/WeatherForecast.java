@@ -13,7 +13,27 @@ public class WeatherForecast {
         this.temperature = temperature;
     }
 
-    public LocalDate getDate() { return date; }
-    public String getSummary() { return summary; }
-    public double getTemperature() { return temperature; }
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
 }
