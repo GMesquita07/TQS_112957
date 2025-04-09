@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="pt.ua.tqs.mealbooking.service.MealServiceWithMockedWeatherTest" time="0.65" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="pt.ua.tqs.mealbooking.FunctionalTest" time="5.122" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="webdriver.chrome.driver" value="/home/mesquita/.cache/selenium/chromedriver/linux64/134.0.6998.165/chromedriver"/>
@@ -55,11 +55,18 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testGetMealsWithWeather_usesMockedForecast" classname="pt.ua.tqs.mealbooking.service.MealServiceWithMockedWeatherTest" time="0.648">
-    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/home/mesquita/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.8/byte-buddy-agent-1.14.8.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
+  <testcase name="testReservaECancelamento" classname="pt.ua.tqs.mealbooking.FunctionalTest" time="4.098">
+    <system-out><![CDATA[01:00:05.021 [main] INFO io.github.bonigarcia.wdm.WebDriverManager -- Using chromedriver 134.0.6998.165 (resolved driver for Chrome 134)
+01:00:05.033 [main] INFO io.github.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as /home/mesquita/.cache/selenium/chromedriver/linux64/134.0.6998.165/chromedriver
+]]></system-out>
+    <system-err><![CDATA[Starting ChromeDriver 134.0.6998.165 (fd886e2cb29dd984c13deec032832dee68d8abe3-refs/branch-heads/6998@{#2122}) on port 9972
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully on port 9972.
+abr. 09, 2025 1:00:05 DA MANHÃ org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 134
+abr. 09, 2025 1:00:05 DA MANHÃ org.openqa.selenium.chromium.ChromiumDriver lambda$new$3
+WARNING: Unable to find version of CDP to use for . You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.8.3` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-err>
   </testcase>
 </testsuite>

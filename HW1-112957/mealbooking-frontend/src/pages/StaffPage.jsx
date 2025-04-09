@@ -26,11 +26,7 @@ export default function StaffPage() {
       .then(() => {
         setMensagem("Check-in realizado com sucesso!");
         setErro('');
-        setReservas(prev =>
-          prev.map(r =>
-            r.token === token ? { ...r, checkedIn: true } : r
-          )
-        );
+        setReservas(prev => prev.map(r => r.token === token ? { ...r, checkedIn: true } : r));
       })
       .catch(err => {
         setMensagem('');
@@ -41,11 +37,11 @@ export default function StaffPage() {
   return (
     <div>
       <h2>Área de Staff - Lista de Reservas</h2>
-      {mensagem && <p style={{ color: 'green' }}>{mensagem}</p>}
-      {erro && <p style={{ color: 'red' }}>{erro}</p>}
+      {mensagem && <p style={{ color: 'green' }} id="success-message">{mensagem}</p>}
+      {erro && <p style={{ color: 'red' }} id="error-message">{erro}</p>}
 
       {reservas.length === 0 ? (
-        <p>Sem reservas registadas.</p>
+        <p id="no-reservations">Sem reservas registadas.</p>
       ) : (
         <table border="1" cellPadding="8">
           <thead>
@@ -59,16 +55,18 @@ export default function StaffPage() {
             </tr>
           </thead>
           <tbody>
-            {reservas.map(reserva => (
+            {reservas.map((reserva, index) => (
               <tr key={reserva.token}>
                 <td>{reserva.restaurantName}</td>
                 <td>{reserva.date}</td>
                 <td>{reserva.type}</td>
-                <td>{reserva.token}</td>
+                <td id={`token-${index}`}>{reserva.token}</td>
                 <td>{reserva.checkedIn ? '✔️ Sim' : '❌ Não'}</td>
                 <td>
                   {!reserva.checkedIn && !reserva.cancelled ? (
-                    <button onClick={() => handleCheckIn(reserva.token)}>Fazer Check-in</button>
+                    <button id={`checkin-btn-${index}`} onClick={() => handleCheckIn(reserva.token)}>
+                      Fazer Check-in
+                    </button>
                   ) : reserva.cancelled ? (
                     'Cancelada'
                   ) : (

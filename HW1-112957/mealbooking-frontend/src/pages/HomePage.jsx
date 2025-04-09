@@ -1,16 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function HomePage() {
-  const [selectedRestaurant, setSelectedRestaurant] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedRestaurant, setSelectedRestaurant] = useState("1");
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date().toISOString().split("T")[0];
+    return today;
+  });
   const [meals, setMeals] = useState([]);
   const [reservationMessage, setReservationMessage] = useState("");
-
-  useEffect(() => {
-    if (selectedRestaurant && selectedDate) {
-      fetchMealsWithWeather();
-    }
-  }, [selectedRestaurant, selectedDate]);
 
   const fetchMealsWithWeather = () => {
     fetch(`http://localhost:8080/api/meals/weather?restaurantId=${selectedRestaurant}&date=${selectedDate}`)
@@ -31,18 +28,13 @@ function HomePage() {
   };
 
   const handleReservation = (mealId, type) => {
-    const restaurantId = selectedRestaurant;
-    const date = selectedDate;
-
     fetch("http://localhost:8080/api/reservations", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        restaurantId,
+        restaurantId: selectedRestaurant,
         mealId,
-        date,
+        date: selectedDate,
         type,
       }),
     })
@@ -57,7 +49,7 @@ function HomePage() {
       .then((data) => {
         const existingTokens = JSON.parse(localStorage.getItem("reservationTokens")) || [];
         localStorage.setItem("reservationTokens", JSON.stringify([...existingTokens, data.token]));
-        setReservationMessage(`Reserva efetuada com sucesso! Token: ${data.token}`);
+        alert("Token: " + data.token); // ⚠️ Necessário para o teste funcional!
       })
       .catch((error) => {
         setReservationMessage(`Erro ao fazer a reserva: ${error.message}`);
@@ -66,20 +58,30 @@ function HomePage() {
 
   return (
     <div>
-      <h2>Página de Cantinas</h2>
+      <h2>Refeições Disponíveis</h2>
 
-      <label>Escolha uma cantina:</label>
-      <select onChange={(e) => setSelectedRestaurant(e.target.value)} value={selectedRestaurant}>
-        <option value="">Selecione uma cantina</option>
+      <label htmlFor="restaurant-select">Escolha a cantina:</label>
+      <select
+        id="restaurant-select"
+        onChange={(e) => setSelectedRestaurant(e.target.value)}
+        value={selectedRestaurant}
+      >
         <option value="1">Cantina Central</option>
-        <option value="2">Cantina Santiago</option>
+        <option value="2">Cantina de Santiago</option>
       </select>
 
-      <label>Data:</label>
-      <input type="date" onChange={(e) => setSelectedDate(e.target.value)} value={selectedDate} />
+      <label style={{ marginLeft: "20px" }}>Data:</label>
+      <input
+        type="date"
+        value={selectedDate}
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
 
-      <h3>Refeições disponíveis</h3>
-      <table>
+      <button onClick={fetchMealsWithWeather} style={{ marginLeft: "10px" }}>
+        Procurar
+      </button>
+
+      <table border="1" cellPadding="8" style={{ marginTop: "20px" }}>
         <thead>
           <tr>
             <th>Tipo</th>
@@ -92,7 +94,7 @@ function HomePage() {
         <tbody>
           {meals.length > 0 ? (
             meals.map((meal) => (
-              <tr key={meal.id}>
+              <tr key={meal.id} className="meal-row">
                 <td>{meal.type}</td>
                 <td>{meal.description}</td>
                 <td>{meal.date}</td>
@@ -102,7 +104,16 @@ function HomePage() {
                     : "Sem dados"}
                 </td>
                 <td>
-                  <button onClick={() => handleReservation(meal.id, meal.type)}>Reservar</button>
+                  <button
+                    className={
+                      meal.type === "ALMOCO"
+                        ? "reservation-btn-almoco"
+                        : "reservation-btn-jantar"
+                    }
+                    onClick={() => handleReservation(meal.id, meal.type)}
+                  >
+                    Reservar
+                  </button>
                 </td>
               </tr>
             ))

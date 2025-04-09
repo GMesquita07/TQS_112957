@@ -1,5 +1,7 @@
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/controller/RestaurantControllerTest.java
+/home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/FunctionalTest.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/service/MealServiceWithMockedWeatherTest.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/controller/MealControllerTest.java
+/home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/StaffCheckinTest.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/service/WeatherCacheServiceTest.java
 /home/mesquita/TQS/TQS_112957/HW1-112957/mealbooking/src/test/java/pt/ua/tqs/mealbooking/service/ReservationServiceTest.java

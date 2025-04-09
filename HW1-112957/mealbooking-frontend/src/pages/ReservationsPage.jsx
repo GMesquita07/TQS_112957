@@ -15,21 +15,17 @@ export default function ReservationsPage() {
           if (!res.ok) throw new Error('Erro ao carregar reserva');
           return res.json();
         })
-        .then(data => ({ token, data }))
-        .catch(err => {
-          console.error('Erro ao carregar token', token, err);
-          // Remover token inválido
+        .then(data => ({ ...data, token }))
+        .catch(() => {
           const stored = JSON.parse(localStorage.getItem('reservationTokens')) || [];
           const updated = stored.filter(t => t !== token);
           localStorage.setItem('reservationTokens', JSON.stringify(updated));
-
           return null;
         })
-    ))
-      .then(results => {
-        const validReservations = results.filter(r => r !== null).map(r => r.data);
-        setReservations(validReservations);
-      });
+    )).then(results => {
+      const validReservations = results.filter(r => r !== null);
+      setReservations(validReservations);
+    });
   }, []);
 
   const cancelarReserva = (token) => {
@@ -37,46 +33,52 @@ export default function ReservationsPage() {
       method: 'POST'
     })
       .then(res => {
-        if (!res.ok) {
-          throw new Error("Erro ao cancelar reserva");
-        }
+        if (!res.ok) throw new Error("Erro ao cancelar reserva");
         return res.text();
       })
       .then(() => {
         setReservations(prev =>
           prev.map(r => r.token === token ? { ...r, cancelled: true } : r)
         );
-
         const tokens = JSON.parse(localStorage.getItem('reservationTokens')) || [];
-        const updated = tokens.filter(t => t !== token);
-        localStorage.setItem('reservationTokens', JSON.stringify(updated));
+        localStorage.setItem('reservationTokens', JSON.stringify(tokens.filter(t => t !== token)));
       })
-      .catch(err => {
-        setError(err.message);
-      });
+      .catch(err => setError(err.message));
   };
-
-  if (reservations.length === 0) {
-    return <p>Sem reservas ativas.</p>;
-  }
 
   return (
     <div>
       <h2>As Minhas Reservas</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }} id="error-message">{error}</p>}
 
-      {reservations.map(reservation => (
-        <div key={reservation.token} style={{ border: '1px solid #ccc', marginBottom: '10px', padding: '10px' }}>
-          <p><strong>Restaurante:</strong> {reservation.restaurantName}</p>
-          <p><strong>Data:</strong> {reservation.date}</p>
-          <p><strong>Tipo:</strong> {reservation.type}</p>
-          <p><strong>Cancelada:</strong> {reservation.cancelled ? 'Sim' : 'Não'}</p>
+      {reservations.length === 0 ? (
+        <p id="no-reservations">Sem reservas ativas.</p>
+      ) : (
+        reservations.map((reservation, index) => (
+          <div
+            key={reservation.token}
+            className="reservation-row"
+            id={`reserva-${index}`}
+            style={{ border: '1px solid #ccc', marginBottom: '10px', padding: '10px' }}
+          >
+            <p><strong>Restaurante:</strong> {reservation.restaurantName}</p>
+            <p><strong>Data:</strong> {reservation.date}</p>
+            <p><strong>Tipo:</strong> {reservation.type}</p>
+            <p><strong>Cancelada:</strong> {reservation.cancelled ? 'Sim' : 'Não'}</p>
+            <p className="reservation-token"><strong>Token:</strong> {reservation.token}</p>
 
-          {!reservation.cancelled && (
-            <button onClick={() => cancelarReserva(reservation.token)}>Cancelar Reserva</button>
-          )}
-        </div>
-      ))}
+            {!reservation.cancelled && (
+              <button
+                id={`cancel-btn-${index}`}
+                className="cancel-btn"
+                onClick={() => cancelarReserva(reservation.token)}
+              >
+                Cancelar Reserva
+              </button>
+            )}
+          </div>
+        ))
+      )}
     </div>
   );
 }
