@@ -1,0 +1,6 @@
+pt/ua/tqs/mealbooking/service/MealServiceWithMockedWeatherTest.class
+pt/ua/tqs/mealbooking/service/ReservationServiceTest.class
+pt/ua/tqs/mealbooking/FunctionalTest.class
+pt/ua/tqs/mealbooking/controller/MealControllerTest.class
+pt/ua/tqs/mealbooking/service/WeatherCacheServiceTest.class
+pt/ua/tqs/mealbooking/controller/RestaurantControllerTest.class

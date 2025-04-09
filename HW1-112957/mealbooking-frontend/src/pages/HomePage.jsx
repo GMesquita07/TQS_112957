@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [selectedRestaurant, setSelectedRestaurant] = useState("1");
+  const [restaurants, setRestaurants] = useState([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState("");
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date().toISOString().split("T")[0];
     return today;
   });
   const [meals, setMeals] = useState([]);
   const [reservationMessage, setReservationMessage] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/restaurants")
+      .then((res) => res.json())
+      .then((data) => {
+        setRestaurants(data);
+        if (data.length > 0) {
+          setSelectedRestaurant(data[0].id.toString());
+        }
+      });
+  }, []);
 
   const fetchMealsWithWeather = () => {
     fetch(`http://localhost:8080/api/meals/weather?restaurantId=${selectedRestaurant}&date=${selectedDate}`)
@@ -66,8 +78,11 @@ function HomePage() {
         onChange={(e) => setSelectedRestaurant(e.target.value)}
         value={selectedRestaurant}
       >
-        <option value="1">Cantina Central</option>
-        <option value="2">Cantina de Santiago</option>
+        {restaurants.map((r) => (
+          <option key={r.id} value={r.id}>
+            {r.name}
+          </option>
+        ))}
       </select>
 
       <label style={{ marginLeft: "20px" }}>Data:</label>
